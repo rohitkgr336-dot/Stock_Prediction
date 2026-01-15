@@ -1,0 +1,182 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #333;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    button {
+      background: #e95004;
+      color: rgb(20, 20, 20);
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <h1>📈 Stock Predictor</h1>
+  <p>Enter Stock Symbol (e.g., AAPL, MSFT, TSLA):</p>
+  <input type="text" id="stockSymbol" placeholder="Enter stock symbol">
+  <button onclick="predictStock()">Predict</button>
+  
+  <div id="result"></div>
+
+  <script>
+    async function predictStock() {
+      const symbol = document.getElementById("stockSymbol").value.toUpperCase();
+      const apiKey = "YOUR_API_KEY"; // Get free key from https:/www.alphavantage.co/
+      const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${apiKey}`;
+
+      document.getElementById("result").innerText = "Fetching data...";
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!data["Time Series (Daily)"]) {
+          document.getElementById("result").innerText = "Invalid stock symbol or API limit reached!";
+          return;
+        }
+
+        const timeSeries = data["Time Series (Daily)"];
+        const dates = Object.keys(timeSeries);
+        
+        const today = timeSeries[dates[0]];
+        const yesterday = timeSeries[dates[1]];
+
+        const todayPrice = parseFloat(today["4. close"]);
+        const yesterdayPrice = parseFloat(yesterday["4. close"]);
+
+        let advice = "";
+        if (todayPrice < yesterdayPrice) {
+          advice = `Stock ${symbol} looks cheaper today. Suggestion: ✅ BUY`;
+        } else {
+          advice = `Stock ${symbol} is higher today. Suggestion: ❌ HOLD/SELL`;
+        }
+
+        document.getElementById("result").innerText = 
+          `Today: $${todayPrice}\nYesterday: $${yesterdayPrice}\n\n${advice}`;
+      } catch (error) {
+        document.getElementById("result").innerText = "Error fetching data!";
+      }
+    }
+  </script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: hsl(240, 5%, 96%);
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #333;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    button {
+      background: #e95004;
+      color: rgb(20, 20, 20);
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #222;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <h1>📈 Stock Predictor</h1>
+  <p>Enter Stock Symbol (e.g., AAPL, MSFT, TSLA):</p>
+  <input type="text" id="stockSymbol" placeholder="Enter stock symbol">
+  <button onclick="predictStock()">Predict</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function predictStock() {
+      const symbol = document.getElementById("stockSymbol").value.toUpperCase();
+      const apiKey = "YOUR_API_KEY"; // Replace with your AlphaVantage API key
+      const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${apiKey}`;
+
+      document.getElementById("result").innerText = "Fetching data...";
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!data["Time Series (Daily)"]) {
+          document.getElementById("result").innerText = "Invalid stock symbol or API limit reached!";
+          return;
+        }
+
+        const timeSeries = data["Time Series (Daily)"];
+        const dates = Object.keys(timeSeries);
+
+        const today = timeSeries[dates[0]];
+        const yesterday = timeSeries[dates[1]];
+
+        const todayPrice = parseFloat(today["4. close"]);
+        const yesterdayPrice = parseFloat(yesterday["4. close"]);
+
+        // Simple prediction for tomorrow based on trend
+        const change = todayPrice - yesterdayPrice;
+        const tomorrowPrice = (todayPrice + change).toFixed(2);
+
+        let advice = "";
+        if (tomorrowPrice > todayPrice) {
+          advice = `Prediction: Price may rise tomorrow. ✅ Consider BUY`;
+        } else {
+          advice = `Prediction: Price may fall tomorrow. ❌ Consider HOLD/SELL`;
+        }
+
+        document.getElementById("result").innerText =
+          `Today: $${todayPrice}\nYesterday: $${yesterdayPrice}\nPredicted Tomorrow Price: $${tomorrowPrice}\n\n${advice}`;
+      } catch (error) {
+        document.getElementById("result").innerText = "Error fetching data!";
+      }
+    }
+  </script>
+</body>
+</html>
+
