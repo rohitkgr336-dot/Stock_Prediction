@@ -1,9 +1,4 @@
-Below is a **clean, professional `README.md`** you can directly upload to GitHub for this project.
-It is written based on your **Stock Predictor HTML project** .
 
----
-
-```md
 # 📈 Stock Predictor Web App
 
 A simple and interactive **Stock Predictor** web application built using **HTML, CSS, and JavaScript**.  
@@ -93,24 +88,4 @@ with your actual API key.
 This project is created **for learning and demonstration purposes only**.
 It does **not** provide financial advice.
 
----
 
-## 👨‍💻 Author
-
-**Rohit Kumar Gupta**
-
-If you like this project, ⭐ star the repository and feel free to contribute!
-
-```
-
----
-
-### ✅ Next steps (optional)
-If you want, I can:
-- Create a **GitHub project description**
-- Add **screenshots section**
-- Convert this into a **React / Flask / FastAPI project**
-- Improve prediction logic using **ML**
-
-Just tell me 👍
-```
